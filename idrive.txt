@@ -1,0 +1,77 @@
+IDRIVE LINUX Aggiornato (PERL SCRIPTS)
+
+Scaricare il file IDriveForLinux.zip e scompattarlo in /opt/iDrive (https://www.idrive.com/online-backup-linux, adesso scaricabile su richiesta al supporto)
+oppure 
+(Salvata versione 2.28 sul NAS in HomeGM o \\10.10.10.250\materiale\utility\utility_server)
+
+Dare i permessi di esecuzione sui file perl: chmod u+x *.pl
+
+Crea la cartella: /opt/iDrive/tmp/
+
+Lanciare:  ./account_setting.pl
+Service path: /opt/iDrive/tmp
+Are you using proxy? N
+Username: USER o email_del_tuo@account.com
+Password: la_tua_password
+Enter your Backup Location [Note: Backup location should contain valid path] [Optional]: linodeXX
+Enter your Restore Location [Optional]: battere solo invio
+Your restore from location is set to "linode15". Do you wish to modify (y/n)? N
+Restore Location prompt is "Enabled". Do you want to "Disable"? Y
+Software update notification is "Disabled". Do you want to "Enable"? Y
+Enter your e-mail address [Optional]: support@neikos.it
+Select option for Backup Type: 1  (Mirror)
+Do you want to login as "nomelogl" (y/n)? Y
+
+Lanciare: ./edit_supported_files.pl
+Selezionare il menù 1: Edit your Backupset
+Si apre il file vim dove inserire tutte le directory da includere nel backup
+
+
+# MINIMAL
+/etc/apache2/sites-available
+/opt
+/var/lib/mysql
+
+(premere “esc” e poi digitare “:wq” per uscire e salvare, successivamente rispondere “y”, per tornare al Menù Option)
+ Selezionare il menù 2: Edit your Express Backupset
+Si apre il file vim dove inserire le cartelle di express backupset (magari solo opt/www e /var/lib/mysql).
+(premere “esc” e poi digitare “:wq” per uscire e salvare, successivamente rispondere “y”, per tornare al Menù Option)
+ Nella sezione Exclude: i menù 3 - 4 - 5 devono essere composti da file vuoti, quindi aprirli selezionando i relativi menù, e cancellare tutto quello che ci sta scritto
+
+
+# REGEX TO EXCLUDE 2021 
+
+^.*\/var\/session.*$
+^.*\/var\/report.*$
+^.*\/var\/cache.*$
+^.*\/framework\/sessions.*$
+^.*\/wp-content\/cache.*$
+^.*\/neicontent\/cache.*$
+^.*\/wp-content\/languages\/\w*.json\b.*$
+^.*\/neicontent\/languages\/\w*.json\b.*$
+
+
+
+TESTING: https://regex101.com/
+
+
+
+
+Per lanciare un backup manuale usare: ./Backup_Script.pl 
+(Questo comando viene usato per lanciare un backup di test)
+
+Per impostare il Backup Schedulato lancia il comando: ./scheduler.pl
+Selezionare il menu 1:  Schedule your Backup job
+Selezionare la scelta n.1: Schedule for late
+Selezionare la scelta n.2: DAILY
+Selezionare l’orario a cui si deve effettuare il Backup: 22.00 (senza cutoff)
+Selezionare “y” alla seguente domanda: Do you want to enable e-mail notification? Per abilitare le mail di notifica
+Selezionare la scelta n.1: Notify always
+Selezionare la mail dove volete arrivino le notifiche
+(Rilanciare il comando: ./scheduler.pl)
+Selezionare il menu 5: Periodic Archive Cleanup
+Enter the percentage limit beyond which cleanup will not take place: 5
+Number of days in a month, after which data is automatically cleaned up for your backup set: 10
+  
+
+
